@@ -23,7 +23,7 @@
 - (NSString *)assetSelectedImageName
 {
     if (!_assetSelectedImageName) {
-        return @"uzysAP_ico_photo_thumb_check";
+        return nil;//@"uzysAP_ico_photo_thumb_check";
     }
     return _assetSelectedImageName;
 }
@@ -31,7 +31,7 @@
 - (NSString *)assetDeselectedImageName
 {
     if (!_assetDeselectedImageName) {
-        return @"uzysAP_ico_photo_thumb_uncheck";
+        return nil;//@"uzysAP_ico_photo_thumb_uncheck";
     }
     return _assetDeselectedImageName;
 }
@@ -39,7 +39,7 @@
 - (NSString *)assetsGroupSelectedImageName
 {
     if (!_assetsGroupSelectedImageName) {
-        return @"uzysAP_ico_checkMark";
+        return nil;//@"uzysAP_ico_checkMark";
     }
     return _assetsGroupSelectedImageName;
 }
@@ -47,7 +47,7 @@
 - (NSString *)cameraImageName
 {
     if (!_cameraImageName) {
-        return @"uzysAP_ico_upload_camera";
+        return @"camera-icon";
     }
     return _cameraImageName;
 }

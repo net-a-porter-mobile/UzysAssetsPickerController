@@ -10,7 +10,7 @@
 #import "UzysWrapperPickerController.h"
 #import "UzysGroupPickerView.h"
 #import "UzysGroupPickerViewController.h"
-@interface UzysAssetsPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface UzysAssetsPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
 //View
 @property (weak, nonatomic) IBOutlet UIButton *btnTitle;
 @property (weak, nonatomic) IBOutlet UIButton *btnDone;
@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *labelSelectedMedia;
-@property (weak, nonatomic) IBOutlet UIButton *btnCamera;
 
 @property (nonatomic, strong) UIView *noAssetView;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
@@ -235,7 +234,7 @@
 - (void)setupCollectionView
 {
     UICollectionViewFlowLayout *layout  = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize                     = kThumbnailSize;
+    layout.itemSize                     = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? kThumbnailSizePad : kThumbnailSizePhone;
     layout.sectionInset                 = UIEdgeInsetsMake(1.0, 0, 0, 0);
     layout.minimumInteritemSpacing      = 1.0;
     layout.minimumLineSpacing           = 1.0;
@@ -549,10 +548,13 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ALAsset *asset = [self.assets objectAtIndex:indexPath.row];
-    UIImage *image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullResolutionImage
-                                       scale:asset.defaultRepresentation.scale
-                                 orientation:(UIImageOrientation)asset.defaultRepresentation.orientation];
-    [self.delegate UzysAssetsPickerController:self wantsCropViewForImage:image];
+    [self.delegate UzysAssetsPickerController:self didFinishPickingAssets:@[asset]];
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout method
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat length = ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? kThumbnailLengthPad : kThumbnailLengthPhone);
+    return CGSizeMake(length, length);
 }
 
 

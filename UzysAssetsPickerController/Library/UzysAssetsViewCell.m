@@ -96,7 +96,8 @@ static UIColor *selectedColor;
 - (void)drawRect:(CGRect)rect
 {
     // Image
-    [self.image drawInRect:CGRectMake(0, 0, kThumbnailLength, kThumbnailLength)];
+    CGFloat length = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? kThumbnailLengthPad : kThumbnailLengthPhone;
+    [self.image drawInRect:CGRectMake(0, 0, length, length)];
     
     // Video title
     if ([self.type isEqual:ALAssetTypeVideo])
@@ -123,7 +124,7 @@ static UIColor *selectedColor;
         
         NSDictionary *attributes = @{NSFontAttributeName:videoTimeFont,NSForegroundColorAttributeName:videoTitleColor};
         CGSize titleSize        = [self.title sizeWithAttributes:attributes];
-        [self.title drawInRect:CGRectMake(rect.size.width - (NSInteger)titleSize.width - 2 , startPoint.y + (videoTimeHeight - 12) / 2, kThumbnailLength, height) withAttributes:attributes];
+        [self.title drawInRect:CGRectMake(rect.size.width - (NSInteger)titleSize.width - 2 , startPoint.y + (videoTimeHeight - 12) / 2, length, height) withAttributes:attributes];
         
         [videoIcon drawAtPoint:CGPointMake(2, startPoint.y + (videoTimeHeight - videoIcon.size.height) / 2)];
     }

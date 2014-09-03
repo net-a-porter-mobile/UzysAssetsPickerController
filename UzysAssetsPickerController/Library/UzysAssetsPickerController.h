@@ -16,7 +16,6 @@
 @optional
 - (void)UzysAssetsPickerControllerDidCancel:(UzysAssetsPickerController *)picker;
 - (void)UzysAssetsPickerControllerDidExceedMaximumNumberOfSelection:(UzysAssetsPickerController *)picker;
-- (void)UzysAssetsPickerController:(UzysAssetsPickerController *)picker wantsCropViewForImage:(UIImage *)image;
 @end
 
 @interface UzysAssetsPickerController : UIViewController
@@ -25,6 +24,8 @@
 @property (nonatomic, assign) NSInteger maximumNumberOfSelectionPhoto;
 //--------------------------------------------------------------------
 @property (nonatomic, assign) NSInteger maximumNumberOfSelectionMedia;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnCamera;
 
 @property (nonatomic, weak) id <UzysAssetsPickerControllerDelegate> delegate;
 + (ALAssetsLibrary *)defaultAssetsLibrary;

@@ -631,10 +631,10 @@
         NSSet *updatedAssetGroup = [info objectForKey:ALAssetLibraryUpdatedAssetGroupsKey];
         NSSet *deletedAssetGroup = [info objectForKey:ALAssetLibraryDeletedAssetGroupsKey];
         NSSet *insertedAssetGroup = [info objectForKey:ALAssetLibraryInsertedAssetGroupsKey];
-        DLog(@"updated assets:%@", updatedAssets);
-        DLog(@"updated asset group:%@", updatedAssetGroup);
-        DLog(@"deleted asset group:%@", deletedAssetGroup);
-        DLog(@"inserted asset group:%@", insertedAssetGroup);
+//        DLog(@"updated assets:%@", updatedAssets);
+//        DLog(@"updated asset group:%@", updatedAssetGroup);
+//        DLog(@"deleted asset group:%@", deletedAssetGroup);
+//        DLog(@"inserted asset group:%@", insertedAssetGroup);
         
         if(info == nil)
         {
@@ -789,28 +789,29 @@
     switch (btn.tag) {
         case kTagButtonCamera:
         {
-            if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                
-                UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                      message:@"Device has no camera"
-                                                                     delegate:nil
-                                                            cancelButtonTitle:@"OK"
-                                                            otherButtonTitles: nil];
-                [myAlertView show];
-            }
-            else
-            {
-//                [self initImagePicker];
-                __weak typeof(self) weakSelf = self;
-                [self presentViewController:self.picker animated:YES completion:^{
-                    //카메라 화면으로 가면 강제로 가메라 롤로 변경.
-                    if(![weakSelf.assetsGroup isEqual:weakSelf.groups[0]] )
-                    {
-                        weakSelf.assetsGroup = weakSelf.groups[0];
-                        [weakSelf changeGroup:0 filter:weakSelf.assetsFilter];
-                    }
-                }];
-            }
+//            if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+//                
+//                UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                                      message:@"Device has no camera"
+//                                                                     delegate:nil
+//                                                            cancelButtonTitle:@"OK"
+//                                                            otherButtonTitles: nil];
+//                [myAlertView show];
+//            }
+//            else
+//            {
+////                [self initImagePicker];
+//                __weak typeof(self) weakSelf = self;
+//                [self presentViewController:self.picker animated:YES completion:^{
+//                    //카메라 화면으로 가면 강제로 가메라 롤로 변경.
+//                    if(![weakSelf.assetsGroup isEqual:weakSelf.groups[0]] )
+//                    {
+//                        weakSelf.assetsGroup = weakSelf.groups[0];
+//                        [weakSelf changeGroup:0 filter:weakSelf.assetsFilter];
+//                    }
+//                }];
+//            }
+            [self.delegate UzysAssetsPickerControllerWantsCamera:self];
         }
             break;
         case kTagButtonClose:

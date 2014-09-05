@@ -16,6 +16,7 @@
 @optional
 - (void)UzysAssetsPickerControllerDidCancel:(UzysAssetsPickerController *)picker;
 - (void)UzysAssetsPickerControllerDidExceedMaximumNumberOfSelection:(UzysAssetsPickerController *)picker;
+- (void)UzysAssetsPickerControllerWantsCamera:(UzysAssetsPickerController *)picker;
 @end
 
 @interface UzysAssetsPickerController : UIViewController

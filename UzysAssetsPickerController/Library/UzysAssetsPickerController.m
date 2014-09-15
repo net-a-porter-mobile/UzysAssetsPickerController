@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *labelSelectedMedia;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnCameraHeightConstraint;
 
 @property (nonatomic, strong) UIView *noAssetView;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
@@ -79,6 +80,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kAssetsViewCameraCellIdentifier];
+    
     // Do any additional setup after loading the view from its nib.
     [self initVariable];
     [self initImagePicker];
@@ -159,6 +163,8 @@
 {
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     [self.btnCamera setImage:[UIImage Uzys_imageNamed:appearanceConfig.cameraImageName] forState:UIControlStateNormal];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        self.btnCameraHeightConstraint.constant = 0;
     self.btnDone.layer.cornerRadius = 15;
     self.btnDone.clipsToBounds = YES;
     [self.btnDone setBackgroundColor:appearanceConfig.finishSelectionButtonColor];
@@ -361,6 +367,9 @@
     else
         [self.assets removeAllObjects];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self.assets addObject:[[ALAsset alloc] init]];
+    
     if(!self.assetsGroup)
     {
         self.assetsGroup = self.groups[0];
@@ -522,11 +531,6 @@
 
 #pragma mark - Collection View Data Source
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.assets.count;
@@ -534,12 +538,21 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = kAssetsViewCellIdentifier;
+    static NSString *CellIdentifier = @"";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && indexPath.row == 0)
+        CellIdentifier = kAssetsViewCameraCellIdentifier;
+    else
+        CellIdentifier = kAssetsViewCellIdentifier;
     
     UzysAssetsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    [cell applyData:[self.assets objectAtIndex:indexPath.row]];
-    
+    if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && indexPath.row == 0))
+        [cell applyData:[self.assets objectAtIndex:indexPath.row]];
+    else {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera-icon-xl"]];
+        imageView.contentMode = UIViewContentModeCenter;
+        cell.backgroundView = imageView;
+    }
     return cell;
 }
 
@@ -547,8 +560,12 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ALAsset *asset = [self.assets objectAtIndex:indexPath.row];
-    [self.delegate UzysAssetsPickerController:self didFinishPickingAssets:@[asset]];
+    if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && indexPath.row == 0)) {
+        ALAsset *asset = [self.assets objectAtIndex:indexPath.row];
+        [self.delegate UzysAssetsPickerController:self didFinishPickingAssets:@[asset]];
+    } else {
+        [self.delegate UzysAssetsPickerControllerWantsCamera:self];
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout method

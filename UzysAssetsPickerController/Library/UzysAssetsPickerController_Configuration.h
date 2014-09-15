@@ -12,6 +12,7 @@ typedef void (^voidBlock)(void);
 
 #define kGroupViewCellIdentifier           @"groupViewCellIdentifier"
 #define kAssetsViewCellIdentifier           @"AssetsViewCellIdentifier"
+#define kAssetsViewCameraCellIdentifier           @"AssetsViewCameraCellIdentifier"
 #define kAssetsSupplementaryViewIdentifier  @"AssetsSupplementaryViewIdentifier"
 #define kThumbnailLengthPhone    78.0f
 #define kThumbnailLengthPad    190.0f

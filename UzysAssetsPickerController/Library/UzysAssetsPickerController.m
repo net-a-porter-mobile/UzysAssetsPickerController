@@ -549,7 +549,7 @@
     if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && indexPath.row == 0))
         [cell applyData:[self.assets objectAtIndex:indexPath.row]];
     else {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera-icon-xl"]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera-icon"]];
         imageView.contentMode = UIViewContentModeCenter;
         cell.backgroundView = imageView;
     }

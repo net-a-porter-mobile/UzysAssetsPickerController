@@ -15,7 +15,7 @@ typedef void (^voidBlock)(void);
 #define kAssetsViewCameraCellIdentifier           @"AssetsViewCameraCellIdentifier"
 #define kAssetsSupplementaryViewIdentifier  @"AssetsSupplementaryViewIdentifier"
 #define kThumbnailLengthPhone    78.0f
-#define kThumbnailLengthPad    190.0f
+#define kThumbnailLengthPad    126.0f
 #define kThumbnailSizePhone      CGSizeMake(kThumbnailLengthPhone, kThumbnailLengthPhone)
 #define kThumbnailSizePad      CGSizeMake(kThumbnailLengthPad, kThumbnailLengthPad)
 

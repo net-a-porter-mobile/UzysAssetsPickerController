@@ -26,7 +26,7 @@
 //--------------------------------------------------------------------
 @property (nonatomic, assign) NSInteger maximumNumberOfSelectionMedia;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnCamera;
+@property (nonatomic, assign) BOOL cameraAvailable;
 
 @property (nonatomic, weak) id <UzysAssetsPickerControllerDelegate> delegate;
 + (ALAssetsLibrary *)defaultAssetsLibrary;

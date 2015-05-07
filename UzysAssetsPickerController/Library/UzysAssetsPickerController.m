@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *labelSelectedMedia;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnCameraHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *btnCamera;
 
 @property (nonatomic, strong) UIView *noAssetView;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
@@ -62,6 +63,7 @@
     if(self)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetsLibraryUpdated:) name:ALAssetsLibraryChangedNotification object:nil];
+        _cameraAvailable = YES;
     }
     return self;
 }
@@ -528,6 +530,13 @@
     }
 }
 
+-(void)setCameraAvailable:(BOOL)cameraAvailable {
+    if (cameraAvailable != _cameraAvailable) {
+        _cameraAvailable = cameraAvailable;
+        self.btnCamera.enabled = cameraAvailable;
+        [self.collectionView reloadData];
+    }
+}
 
 #pragma mark - Collection View Data Source
 
@@ -552,6 +561,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera-icon"]];
         imageView.contentMode = UIViewContentModeCenter;
         cell.backgroundView = imageView;
+        cell.alpha = (self.cameraAvailable) ? 1.0f : 0.5f;
     }
     return cell;
 }
@@ -563,7 +573,7 @@
     if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && indexPath.row == 0)) {
         ALAsset *asset = [self.assets objectAtIndex:indexPath.row];
         [self.delegate UzysAssetsPickerController:self didFinishPickingAssets:@[asset]];
-    } else {
+    } else if(self.cameraAvailable) {
         [self.delegate UzysAssetsPickerControllerWantsCamera:self];
     }
 }
